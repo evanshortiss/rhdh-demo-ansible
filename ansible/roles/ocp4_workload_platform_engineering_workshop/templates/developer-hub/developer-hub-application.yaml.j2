@@ -26,20 +26,19 @@ spec:
         redhat-developer-hub:          
           global:
             clusterRouterBase: {{ r_openshift_subdomain }}
-
-          dynamic:
-            includes:
-              - dynamic-plugins.default.yaml
-            plugins:
-              - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
-                disabled: false
-                pluginConfig: {}
-              - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-argo-cd-backend-dynamic
-                disabled: false
-              - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-argocd
-                disabled: false
-              - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
-                disabled: false
+            dynamic:
+              includes:
+                - dynamic-plugins.default.yaml
+              plugins:
+                - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
+                  disabled: false
+                  pluginConfig: {}
+                - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-argo-cd-backend-dynamic
+                  disabled: false
+                - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-argocd
+                  disabled: false
+                - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
+                  disabled: false
           upstream:
             postgresql:
               auth:
