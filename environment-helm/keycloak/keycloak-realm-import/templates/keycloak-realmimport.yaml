@@ -646,13 +646,13 @@ spec:
         enabled: true
         alwaysDisplayInConsole: false
         clientAuthenticatorType: client-secret
-        secret: 7iKyQUwyApIojzOlSj82vUWIhejv41E5
+        secret: {{ $.Values.backstage.secret }}
         redirectUris:
           - >-
-            https://backstage-${RHDH_NAME}-${NAMESPACE}.${CLUSTER_DOMAIN}/*
+            {{ $.Values.backstage.redirectUri }}
         webOrigins:
           - >-
-            https://backstage-${RHDH_NAME}-${NAMESPACE}.${CLUSTER_DOMAIN}
+            {{ $.Values.backstage.webOrigin }}
         notBefore: 0
         bearerOnly: false
         consentRequired: false
