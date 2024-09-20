@@ -28,6 +28,8 @@ spec:
             clusterRouterBase: {{ r_openshift_subdomain }}
 
           dynamic:
+            includes:
+              - dynamic-plugins.default.yaml
             plugins:
               - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
                 disabled: false
