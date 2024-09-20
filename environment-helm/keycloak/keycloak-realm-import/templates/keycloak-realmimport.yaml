@@ -6,7 +6,6 @@ kind: KeycloakRealmImport
 apiVersion: k8s.keycloak.org/v2alpha1
 metadata:
   name: {{ $.Values.realm.name }}
-  namespace: ${NAMESPACE}
   labels:
     {{- include "keycloak-realmimport.labels" $ | nindent 4 }}
     app: keycloak
@@ -387,7 +386,7 @@ spec:
         emailVerified: true
         firstName: John
         lastName: Doe
-        email: johndoe@rhdh-demo.com
+        email: johndoe@rhdhdemo.com
         federationLink: null
         serviceAccountClientId: null
         attributes: null
