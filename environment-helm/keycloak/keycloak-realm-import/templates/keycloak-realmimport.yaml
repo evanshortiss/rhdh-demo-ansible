@@ -91,7 +91,7 @@ spec:
           containerId: adfb34e7-6bab-42df-b9ce-9defd39524da
           attributes: {}
       client:
-        rhdh-client: []
+        {{ $.Values.realm.name }}: []
         realm-management:
           - id: null
             name: manage-authorization
@@ -422,11 +422,11 @@ spec:
         access: null
         userProfileMetadata: null
       - id: null
-        username: service-account-rhdh-client
+        username: service-account-{{ $.Values.realm.name }}
         enabled: true
         totp: false
         emailVerified: false
-        serviceAccountClientId: rhdh-client
+        serviceAccountClientId: {{ $.Values.realm.name }}
         disableableCredentialTypes: []
         requiredActions: []
         realmRoles:
@@ -636,7 +636,7 @@ spec:
           - offline_access
           - microprofile-jwt
       - id: null
-        clientId: rhdh-client
+        clientId: {{ $.Values.realm.name }}
         name: ''
         description: ''
         rootUrl: ''
