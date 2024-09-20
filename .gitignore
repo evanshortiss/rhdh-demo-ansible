@@ -1,1 +1,2 @@
 .env*
+ansible/playbooks/user-info.yaml
