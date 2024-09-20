@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parasol
+  namespace: {{ ocp4_workload_platform_engineering_workshop_rhdh_argo_application_namespace }}
+  labels:
+    rhdh.app/name: parasol
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    name: ""
+    namespace: parasol
+    server: 'https://kubernetes.default.svc'
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+  source:
+    repoURL: https://github.com/redhat-pe-workshop/pe-workshop-parasol-helm.git
+    targetRevision: main
+    path: parasol
+    helm:
+      values: |
+
+        parasol-db:
+          pgsql:
+            adminPassword: adminpassword
+          image:
+            tag: latest
+          db:
+            deploy: true
+
+        parasol-web:
+          sso:
+            url: "https://{{ ocp4_workload_platform_engineering_workshop_rhbk_host }}.{{ r_openshift_subdomain }}/realms/parasol"
+            client: parasol-web-gateway
+            logoutUri: https://parasol-web-parasol.{{ r_openshift_subdomain }}/home
+            logLevel: "2"
+

@@ -9,6 +9,9 @@
 - name: Install Red Hat Developer Hub
   ansible.builtin.include_tasks: redhat_developer_hub.yml
 
+- name: Deploy Parasol Application
+  ansible.builtin.include_tasks: parasol.yml
+
 - name: Print Common Password
   agnosticd_user_info:
     msg: "{{ item }}"

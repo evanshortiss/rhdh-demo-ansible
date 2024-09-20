@@ -1,0 +1,11 @@
+{% for __namespace in r_platform_engineering_workshop_namespaces %}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: '{{ __namespace.name  }}'
+{% if __namespace.managedByArgo|length > 1 %}
+  labels:
+    argocd.argoproj.io/managed-by: {{ __namespace.managedByArgo }}
+{% endif %}
+{% endfor %}

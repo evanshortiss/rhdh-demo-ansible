@@ -1,0 +1,16 @@
+{% for __binding in r_platform_engineering_workshop_bindings %}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: '{{ __binding.role }}-{{ __binding.namespace }}-namespace'
+  namespace: '{{ __binding.namespace }}'
+subjects:
+- kind: User
+  name: 'admin'
+  namespace: '{{ __binding.namespace  }}'
+roleRef:
+  kind: ClusterRole
+  name: '{{ __binding.role }}'
+  apiGroup: rbac.authorization.k8s.io
+{% endfor %}

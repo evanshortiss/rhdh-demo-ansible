@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parasol-keycloak
+  namespace: {{ ocp4_workload_platform_engineering_workshop_rhdh_argo_application_namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    name: ""
+    namespace: {{ ocp4_workload_platform_engineering_workshop_rhbk_namespace }}
+    server: 'https://kubernetes.default.svc'
+  project: default
+  syncPolicy:
+    automated: {}
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 10
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+  source:
+    repoURL: https://github.com/redhat-pe-workshop/pe-workshop-parasol-helm.git
+    targetRevision: main
+    path: parasol-keycloak
+    helm:
+      values: |
+        keycloak-realm-import:
+          realm:
+            name: parasol
