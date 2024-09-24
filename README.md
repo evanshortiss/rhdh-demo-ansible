@@ -39,7 +39,11 @@ playbook.
 oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443 
 
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
--e rhdh_gh_pat=ghp_replacewithtoken
+-e rhdh_gh_pat=ghp_replacewithtoken \
+-e techdocs_bucketname=replaceme \
+-e techdocs_accesskeyid=replaceme \
+-e techdocs_secretaccesskey=replaceme \
+-e techdocs_region=replaceme
 ```
 
 After the playbook has run, you can login to Red Hat Developer Hub as `johndoe`

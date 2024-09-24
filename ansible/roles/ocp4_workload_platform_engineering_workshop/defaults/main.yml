@@ -194,3 +194,9 @@ ocp4_workload_platform_engineering_workshop_rhdh_helm_repo_path: environment-hel
 ocp4_workload_platform_engineering_workshop_rhdh_helm_repo_tag: main
 
 ocp4_workload_platform_engineering_workshop_rhdh_psql_password: password
+
+# AWS S3 variables for TechDocs
+ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname: {{ techdocs_bucketname }}
+ocp4_workload_platform_engineering_workshop_rhdh_techdocs_accesskeyid: {{ techdocs_accesskeyid }}
+ocp4_workload_platform_engineering_workshop_rhdh_techdocs_secretaccesskey: {{ techdocs_secretaccesskey }}
+ocp4_workload_platform_engineering_workshop_rhdh_techdocs_region: {{ techdocs_region }}
