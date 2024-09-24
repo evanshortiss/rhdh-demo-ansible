@@ -11,6 +11,10 @@
   set_fact:
     argocd_admin_password: "{{ secret_data.resources[0].data['admin.password'] | b64decode }}"
 
+- name: Print TechDocs AWS Details
+  debug:
+    msg: "Region: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_region }} / Bucket: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname }}"
+
 - name: Install RHDH Application
   kubernetes.core.k8s:
     state: present

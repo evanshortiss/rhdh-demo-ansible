@@ -32,18 +32,20 @@ pipx inject ansible kubernetes jmespath
 
 ## Setup & Usage
 
-Login to your OpenShift instance using the `oc` CLI, then run the installation
-playbook.
+Login to your OpenShift instance using the `oc` CLI, prepare environment
+variables, and run the installation playbook.
 
 ```bash
-oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443 
+oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443
+
+cp .env.example .env
 
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
--e rhdh_gh_pat=ghp_replacewithtoken \
--e techdocs_bucketname=replaceme \
--e techdocs_accesskeyid=replaceme \
--e techdocs_secretaccesskey=replaceme \
--e techdocs_region=replaceme
+-e rhdh_gh_pat=$GH_PAT \
+-e techdocs_bucketname=$TECHDOCS_BUCKETNAME \
+-e techdocs_accesskeyid=$TECHDOCS_ACCESSKEYID \
+-e techdocs_secretaccesskey=$TECHDOCS_SECRETACCESSKEY \
+-e techdocs_region=$TECHDOCS_REGION
 ```
 
 After the playbook has run, you can login to Red Hat Developer Hub as `johndoe`

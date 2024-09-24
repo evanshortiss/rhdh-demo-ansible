@@ -57,7 +57,7 @@ spec:
                           credentials:
                             accessKeyId: '${AWS_ACCESS_KEY_ID}'
                             secretAccessKey: '${AWS_SECRET_ACCESS_KEY}'
-                          region: '${BUCKET_REGION}'
+                          regions: '${AWS_REGION}'
                           s3ForcePathStyle: true
                         type: awsS3
           upstream:
@@ -152,6 +152,16 @@ spec:
                       token: {{ rhdh_gh_pat }}
                 catalog:
                   providers:
+                    awsS3:
+                      default:
+                        bucketName:
+                          $env: BUCKET_NAME
+                        region:
+                          $env: AWS_REGION
+                        schedule:
+                          frequency: { minutes: 5 }
+                          timeout: { minutes: 3 }
+                          initialDelay: { seconds: 15 }
                     github:
                       providerId:
                         catalogPath: '/catalog-info.yaml'
