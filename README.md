@@ -38,7 +38,9 @@ variables, and run the installation playbook.
 ```bash
 oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443
 
+# Create a .env, edit with required values, and load those into the session
 cp .env.example .env
+source .env
 
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
 -e rhdh_gh_pat=$GH_PAT \
