@@ -1,5 +1,8 @@
 # RHDH Demo Environment
 
+Note that this environment is currently designed for use with the
+[Red Hat Developer Hub Demo](https://github.com/rhdh-demo-gh/) environment on GitHub.
+
 ## Setup
 
 ### Prerequisites
