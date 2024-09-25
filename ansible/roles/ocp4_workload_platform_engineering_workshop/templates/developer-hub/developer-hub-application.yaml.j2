@@ -21,6 +21,8 @@ spec:
         redhat-developer-hub-prereqs:
           nameOverride: backstage
           backstage:
+            github:
+              pat: {{ rhdh_gh_pat }}
             techdocs:
               bucketName: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname }}
               accessKeyId: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_accesskeyid }}
@@ -43,6 +45,8 @@ spec:
                 - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-argocd
                   disabled: false
                 - package: ./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-github-dynamic
+                  disabled: false
+                - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-quay
                   disabled: false
                 - package: ./dynamic-plugins/dist/backstage-plugin-techdocs-backend-dynamic
                   disabled: false
@@ -72,6 +76,7 @@ spec:
             backstage:
               extraEnvVarsSecrets:
                 - techdocs-s3-variables
+                - gh-pat
               appConfig:
                 argocd:
                   appLocatorMethods:
@@ -149,7 +154,8 @@ spec:
                 integrations:
                   github:
                     - host: github.com
-                      token: {{ rhdh_gh_pat }}
+                      token:
+                        $env: GH_PAT
                 catalog:
                   providers:
                     awsS3:
