@@ -16,7 +16,8 @@ The environment features:
 
 
 <div align="center">
-	<img width="600" alt="A customised Catalog Page in Red Hat Developer Hub" src="rhdh-custom.png">
+    <br>
+	<img width="800" alt="A customised Catalog Page in Red Hat Developer Hub" src="rhdh-custom.png">
 </div>
 
 ## Setup
