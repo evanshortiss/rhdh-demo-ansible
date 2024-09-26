@@ -21,6 +21,8 @@ spec:
         redhat-developer-hub-prereqs:
           nameOverride: backstage
           backstage:
+            quay:
+              token: {{ quay_token }}
             github:
               pat: {{ rhdh_gh_pat }}
             techdocs:
