@@ -96,7 +96,7 @@ cp .env.example .env
 source .env
 
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
--e rhdh_gh_pat=$GH_PAT \
+-e rhdh_gh_pat=$GITHUB_TOKEN \
 -e techdocs_bucketname=$TECHDOCS_BUCKETNAME \
 -e techdocs_accesskeyid=$TECHDOCS_ACCESSKEYID \
 -e techdocs_secretaccesskey=$TECHDOCS_SECRETACCESSKEY \
