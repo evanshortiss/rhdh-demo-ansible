@@ -97,6 +97,8 @@ source .env
 
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
 -e rhdh_gh_pat=$GITHUB_TOKEN \
+-e rhdh_gh_client_id=$AUTH_GITHUB_CLIENT_ID \
+-e rhdh_gh_client_secret=$AUTH_GITHUB_CLIENT_SECRET \
 -e quay_token=$QUAY_TOKEN \
 -e techdocs_bucketname=$TECHDOCS_BUCKETNAME \
 -e techdocs_accesskeyid=$TECHDOCS_ACCESSKEYID \

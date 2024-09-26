@@ -25,6 +25,8 @@ spec:
               token: {{ quay_token }}
             github:
               pat: {{ rhdh_gh_pat }}
+              clientId: {{ rhdh_gh_client_id }}
+              clientSecret: {{ rhdh_gh_client_secret }}
             techdocs:
               bucketName: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname }}
               accessKeyId: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_accesskeyid }}
@@ -80,7 +82,7 @@ spec:
             backstage:
               extraEnvVarsSecrets:
                 - techdocs-s3-variables
-                - gh-pat
+                - secret-gh-credentials
                 - quay-token
               appConfig:
                 proxy:
@@ -161,6 +163,12 @@ spec:
                   session:
                     secret: foobarbaz
                   providers:
+                    auth:
+                      providers:
+                        github:
+                          development:
+                            clientId: ${AUTH_GITHUB_CLIENT_ID}
+                            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
                     oidc:
                       production:
                         metadataUrl: https://{{ ocp4_workload_platform_engineering_workshop_rhbk_host }}.{{ r_openshift_subdomain }}/realms/{{ ocp4_workload_platform_engineering_workshop_rhbk_realm_backstage_name }}/.well-known/openid-configuration
