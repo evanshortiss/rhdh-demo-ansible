@@ -11,6 +11,9 @@ The environment features:
 * TechDocs hosted in AWS S3
 * Plugins ([using the Dynamic Plugins feature](https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.1/html/administration_guide_for_red_hat_developer_hub/rhdh-installing-dynamic-plugins)):
     * [Argo CD](https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.2/html/configuring_plugins_in_red_hat_developer_hub/rhdh-installing-dynamic-plugins#rhdh-argocd)
+    * [GitHub Actions](https://www.npmjs.com/package/@backstage-community/plugin-github-actions)
+    * [GitHub Locations](https://backstage.io/docs/integrations/github/locations/#token-scopes)
+    * [GitHub Org Data](https://backstage.io/docs/integrations/github/org/)
     * [TechDocs](https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.2/html/administration_guide_for_red_hat_developer_hub/assembly-techdocs-plugin_assembly-admin-templates)
     * [GitHub Discovery](https://backstage.io/docs/integrations/github/discovery/)
 
@@ -85,6 +88,8 @@ TODO: Steps to create a R/W IAM Role to publish TechDocs and
 Login to your OpenShift instance using the `oc` CLI, prepare environment
 variables, and run the installation playbook.
 
+_Note: The TechDocs variables are optional. On the fly generation of TechDocs is enabled by default._
+
 ```bash
 oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443
 
@@ -95,6 +100,8 @@ oc login --token $TOKEN --server=-server=https://api.yourcluster.com:6443
 cp .env.example .env
 source .env
 
+# Run the playbook from the root of the ansible directory
+cd ansible
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
 -e rhdh_gh_pat=$GITHUB_TOKEN \
 -e rhdh_gh_client_id=$AUTH_GITHUB_CLIENT_ID \
@@ -104,6 +111,7 @@ ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
 -e techdocs_accesskeyid=$TECHDOCS_ACCESSKEYID \
 -e techdocs_secretaccesskey=$TECHDOCS_SECRETACCESSKEY \
 -e techdocs_region=$TECHDOCS_REGION
+-e techdocs_builder=external
 ```
 
 After the playbook has run, you can login to Red Hat Developer Hub as `johndoe`

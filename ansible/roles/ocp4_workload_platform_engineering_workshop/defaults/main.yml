@@ -200,3 +200,4 @@ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname: "{{ techdo
 ocp4_workload_platform_engineering_workshop_rhdh_techdocs_accesskeyid: "{{ techdocs_accesskeyid }}"
 ocp4_workload_platform_engineering_workshop_rhdh_techdocs_secretaccesskey: "{{ techdocs_secretaccesskey }}"
 ocp4_workload_platform_engineering_workshop_rhdh_techdocs_region: "{{ techdocs_region }}"
+ocp4_workload_platform_engineering_workshop_rhdh_techdocs_builder: "{{ techdocs_builder | default('local') }}"
