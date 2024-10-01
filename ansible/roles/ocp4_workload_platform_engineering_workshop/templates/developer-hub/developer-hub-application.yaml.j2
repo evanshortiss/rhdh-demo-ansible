@@ -60,6 +60,9 @@ spec:
                   disabled: false
                   pluginConfig:
                     techdocs:
+                      sanitizer:
+                        allowedIframeHosts:
+                          - demo.arcade.software
                       builder: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_builder }}
                       generator:
                         runIn: local
