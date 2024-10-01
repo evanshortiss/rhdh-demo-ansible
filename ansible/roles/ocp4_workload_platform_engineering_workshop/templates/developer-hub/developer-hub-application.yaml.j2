@@ -155,6 +155,8 @@ spec:
                             fontColor: '#101010'
                             backgroundColor: ['#fefefe']
                 backend:
+                  csp:
+                    frame-src: ['https://demo.arcade.software/']
                   baseUrl: "https://backstage-{{ ocp4_workload_platform_engineering_workshop_rhdh_namespace }}.{{ r_openshift_subdomain }}"
                   cors:
                     origin: "https://backstage-{{ ocp4_workload_platform_engineering_workshop_rhdh_namespace }}.{{ r_openshift_subdomain }}"
