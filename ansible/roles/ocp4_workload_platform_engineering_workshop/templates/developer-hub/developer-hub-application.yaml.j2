@@ -21,6 +21,10 @@ spec:
         redhat-developer-hub-prereqs:
           nameOverride: backstage
           backstage:
+            permissions: |
+              p, role:default/parasol, catalog-entity, read, allow
+
+              g, group:rhdh-demo-gh/parasol, role:default/guests
             quay:
               token: {{ quay_token }}
             github:
@@ -90,6 +94,11 @@ spec:
                 - gh-credentials
                 - quay-token
               appConfig:
+                # permission:
+                #   enabled: true
+                #   rbac:
+                #     policies-csv-file: /rbac/rbac-policy.csv
+                #     policyFileReload: true
                 proxy:
                   endpoints:
                     '/quay/api':

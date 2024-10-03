@@ -1,0 +1,26 @@
+apiVersion: rhdh.redhat.com/v1alpha1
+kind: Orchestrator
+metadata:
+  name: orchestrator
+  namespace: orchestrator
+spec:
+  orchestrator:
+    namespace: sonataflow-infra
+    sonataflowPlatform:
+      resources:
+        limits:
+          cpu: 500m
+          memory: 1Gi
+        requests:
+          cpu: 250m
+          memory: 64Mi
+  postgres:
+    authSecret:
+      name: sonataflow-psql-postgresql
+      passwordKey: postgres-password
+      userKey: postgres-username
+    database: sonataflow
+    serviceName: sonataflow-psql-postgresql
+    serviceNamespace: sonataflow-infra
+  rhdhOperator:
+    enabled: false
