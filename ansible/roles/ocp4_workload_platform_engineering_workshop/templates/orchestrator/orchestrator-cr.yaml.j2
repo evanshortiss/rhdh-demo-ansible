@@ -16,9 +16,9 @@ spec:
           memory: 64Mi
   postgres:
     authSecret:
-      name: sonataflow-psql-postgresql
-      passwordKey: postgres-password
-      userKey: postgres-username
+      name: postgres-secret
+      passwordKey: POSTGRESQL_PASSWORD
+      userKey: POSTGRESQL_USER
     database: sonataflow
     serviceName: sonataflow-psql-postgresql
     serviceNamespace: sonataflow-infra

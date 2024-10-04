@@ -1,10 +1,14 @@
 ---
 
-- name: Install Orchestrator
-  ansible.builtin.include_tasks: orchestrator.yml
+# - name: Install OpenShift Pipelines
+#   ansible.builtin.include_tasks: openshift_pipelines.yml
 
 - name: Install OpenShift Gitops
   ansible.builtin.include_tasks: openshift_gitops.yml
+
+- name: Install Orchestrator
+  ansible.builtin.include_tasks: orchestrator.yml
+  when: install_orchestrator | default(false)
 
 - name: Install RHBK
   ansible.builtin.include_tasks: keycloak.yml

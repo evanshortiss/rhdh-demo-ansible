@@ -8,19 +8,70 @@
     install_operator_name: orchestrator-operator
     install_operator_namespace: orchestrator
     install_operator_catalogsource_setup: true
-    # install_operator_channel: "{{ ocp4_workload_platform_engineering_workshop_openshift_gitops_operator_channel }}"
-    # install_operator_catalog: "{{ ocp4_workload_platform_engineering_workshop_openshift_gitops_operator_catalog }}"
     install_operator_automatic_install_plan_approval: true
-    # install_operator_starting_csv: "{{ ocp4_workload_platform_engineering_workshop_openshift_gitops_operator_starting_csv }}"
     install_operator_catalogsource_name: orchestrator-operator
     install_operator_packagemanifest_name: orchestrator-operator
     install_operator_catalogsource_namespace: openshift-marketplace
     install_operator_catalogsource_image: quay.io/orchestrator/orchestrator-operator-catalog
     install_operator_catalogsource_image_tag: v1.2.0
 
+- name: Create namespace sonataflow-infra
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: sonataflow-infra
+
+- name: Create a secret for PostgreSQL credentials
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: sonataflow-psql-postgresql
+        namespace: sonataflow-infra
+      data:
+        POSTGRESQL_USER: "{{ 'pguser' | b64encode }}"
+        POSTGRESQL_PASSWORD: "{{ 'pgpassword' | b64encode }}"
+        POSTGRESQL_DATABASE: "{{ 'sonataflow' | b64encode }}"
+        postgres-password: "{{ 'pgpassword' | b64encode }}"
+        postgres-username: "{{ 'pguser' | b64encode }}"
+
+- name: Deploy PostgreSQL resources using a template file
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'orchestrator/orchestrator-postgres.yaml.j2') }}"
+  vars:
+    pvc_name: postgres-pvc
+    pvc_size: 2Gi
+    deployment_name: postgresql
+    app_name: postgresql
+    postgres_image: image-registry.openshift-image-registry.svc:5000/openshift/postgresql:15-el8
+    secret_name: sonataflow-psql-postgresql
+    service_name: sonataflow-psql-postgresql
+    namespace: sonataflow-infra
+
+- name: Temporary fix for NetworkPolicy applied by Orchestrator (enables communication with Postgres and external RHDH)
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: networking.k8s.io/v1
+      kind: NetworkPolicy
+      metadata:
+        name: allow-intra-inter-namespace
+        namespace: sonataflow-infra
+      spec:
+        podSelector: {}
+        policyTypes:
+          - Ingress
+        ingress:
+          - from:
+            - podSelector: {}
+            - namespaceSelector: {} 
+
 - name: "Deploy Orchestrator CR"
   kubernetes.core.k8s:
     state: present
-    resource_definition: "{{ lookup('template', 'orchestrator/orchestrator.yaml.j2') }}"
+    resource_definition: "{{ lookup('template', 'orchestrator/orchestrator-cr.yaml.j2') }}"
   retries: 10
   delay: 30

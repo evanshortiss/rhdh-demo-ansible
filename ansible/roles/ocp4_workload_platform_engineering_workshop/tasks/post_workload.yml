@@ -2,13 +2,18 @@
 # Implement your Post Workload deployment tasks here
 # --------------------------------------------------
 
-- name: Get keycloak-initial-admin secret data
+- name: Wait for the keycloak-initial-admin secret to be available
   kubernetes.core.k8s_info:
     api_version: v1
     kind: Secret
+    namespace: keycloak
     name: keycloak-initial-admin
-    namespace: keycloak  # Replace with the namespace
   register: secret_data
+  until: secret_data.resources | length > 0  # Wait until the secret is found
+  retries: 100
+  delay: 10
+  failed_when: secret_data.resources | length == 0
+  ignore_errors: false
 
 - name: Print Keycloak admin username and password
   debug:

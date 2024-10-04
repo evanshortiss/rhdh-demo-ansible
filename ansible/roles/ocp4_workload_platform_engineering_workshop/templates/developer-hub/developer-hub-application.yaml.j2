@@ -28,9 +28,15 @@ spec:
             quay:
               token: {{ quay_token }}
             github:
-              pat: {{ rhdh_gh_pat }}
+              # pat: {{ rhdh_gh_pat }}
+              appId: {{ rhdh_gh_app_id }}
               clientId: {{ rhdh_gh_client_id }}
               clientSecret: {{ rhdh_gh_client_secret }}
+              privateKey: |
+        {% for line in private_key_content.splitlines() %}
+        {{ line }}
+        {% endfor %}
+
             techdocs:
               bucketName: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname }}
               accessKeyId: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_accesskeyid }}
@@ -45,6 +51,33 @@ spec:
               includes:
                 - dynamic-plugins.default.yaml
               plugins:
+                # Orchestrator dynamic plugins
+                - disabled: false
+                  package: "@redhat/backstage-plugin-orchestrator-backend-dynamic@1.2.0"
+                  integrity: sha512-lyw7IHuXsakTa5Pok8S2GK0imqrmXe3z+TcL7eB2sJYFqQPkCP5la1vqteL9/1EaI5eI6nKZ60WVRkPEldKBTg==
+                  pluginConfig:
+                    orchestrator:
+                      dataIndexService:
+                        url: http://sonataflow-platform-data-index-service.sonataflow-infra
+                - disabled: false
+                  package: "@redhat/backstage-plugin-orchestrator@1.2.0"
+                  integrity: sha512-FhM13wVXjjF39syowc4RnMC/gKm4TRlmh8lBrMwPXAw1VzgIADI8H6WVEs837poVX/tYSqj2WhehwzFqU6PuhA==
+                  pluginConfig:
+                    dynamicPlugins:
+                      frontend:
+                        janus-idp.backstage-plugin-orchestrator:
+                          appIcons:
+                            - importName: OrchestratorIcon
+                              module: OrchestratorPlugin
+                              name: orchestratorIcon
+                          dynamicRoutes:
+                            - importName: OrchestratorPage
+                              menuItem:
+                                icon: orchestratorIcon
+                                text: Orchestrator
+                              module: OrchestratorPlugin
+                              path: /orchestrator
+                # Built-in dynamic plugins
                 - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
                   disabled: false
                   pluginConfig: {}
@@ -70,15 +103,15 @@ spec:
                       builder: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_builder }}
                       generator:
                         runIn: local
-                      publisher:
-                        awsS3:
-                          bucketName: '${BUCKET_NAME}'
-                          credentials:
-                            accessKeyId: '${AWS_ACCESS_KEY_ID}'
-                            secretAccessKey: '${AWS_SECRET_ACCESS_KEY}'
-                          regions: '${AWS_REGION}'
-                          s3ForcePathStyle: true
-                        type: awsS3
+                      # publisher:
+                      #   awsS3:
+                      #     bucketName: '${BUCKET_NAME}'
+                      #     credentials:
+                      #       accessKeyId: '${AWS_ACCESS_KEY_ID}'
+                      #       secretAccessKey: '${AWS_SECRET_ACCESS_KEY}'
+                      #     regions: '${AWS_REGION}'
+                      #     s3ForcePathStyle: true
+                      #   type: awsS3
           upstream:
             postgresql:
               auth:
@@ -164,8 +197,22 @@ spec:
                             fontColor: '#101010'
                             backgroundColor: ['#fefefe']
                 backend:
+                  # Required for Orchestrator
+                  auth:
+                    externalAccess:  
+                      - type: static
+                        options:
+                          # TODO: generate this
+                          # token: ${BACKEND_SECRET}
+                          token: foobarbaz
+                          subject: orchestrator
                   csp:
-                    frame-src: ['https://demo.arcade.software/']
+                    # Required to enable Arcade embeds in TechDocs
+                    frame-src: ["'self'", 'https://demo.arcade.software/']
+                    # Required by Orchestrator
+                    script-src: ["'self'", "'unsafe-inline'", "'unsafe-eval'"]
+                    script-src-elem: ["'self'", "'unsafe-inline'", "'unsafe-eval'"]
+                    connect-src: ["'self'", 'http:', 'https:', 'data:']
                   baseUrl: "https://backstage-{{ ocp4_workload_platform_engineering_workshop_rhdh_namespace }}.{{ r_openshift_subdomain }}"
                   cors:
                     origin: "https://backstage-{{ ocp4_workload_platform_engineering_workshop_rhdh_namespace }}.{{ r_openshift_subdomain }}"
@@ -195,8 +242,14 @@ spec:
                 integrations:
                   github:
                     - host: github.com
-                      token:
-                        $env: GITHUB_TOKEN
+                      apps:
+                        - appId: ${AUTH_GITHUB_APP_ID}
+                          clientId: ${AUTH_GITHUB_CLIENT_ID}
+                          clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+                          webhookSecret: none
+                          privateKey: ${AUTH_GITHUB_PRIVATE_KEY}
+                      # token:
+                      #   $env: GITHUB_TOKEN
                 catalog:
                   providers:
                     awsS3:

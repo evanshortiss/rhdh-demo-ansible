@@ -15,6 +15,10 @@
   debug:
     msg: "Region: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_region }} / Bucket: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_bucketname }}"
 
+- name: Read private key into a variable
+  set_fact:
+    private_key_content: "{{ lookup('ansible.builtin.file', rhdh_gh_pk_file) }}"
+    
 - name: Install RHDH Application
   kubernetes.core.k8s:
     state: present

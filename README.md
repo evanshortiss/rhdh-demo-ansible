@@ -16,6 +16,7 @@ The environment features:
     * [GitHub Org Data](https://backstage.io/docs/integrations/github/org/)
     * [TechDocs](https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.2/html/administration_guide_for_red_hat_developer_hub/assembly-techdocs-plugin_assembly-admin-templates)
     * [GitHub Discovery](https://backstage.io/docs/integrations/github/discovery/)
+    * [Orchestrator](https://www.parodos.dev/)
 
 
 <div align="center">
@@ -103,15 +104,11 @@ source .env
 # Run the playbook from the root of the ansible directory
 cd ansible
 ansible-playbook playbooks/ocp4_workload_platform_engineering_workshop.yml \
--e rhdh_gh_pat=$GITHUB_TOKEN \
+-e rhdh_gh_pk_file=/Users/foo/replace/path/to/pk.pem \
+-e rhdh_gh_app_id=$AUTH_GITHUB_APP_ID \
 -e rhdh_gh_client_id=$AUTH_GITHUB_CLIENT_ID \
 -e rhdh_gh_client_secret=$AUTH_GITHUB_CLIENT_SECRET \
 -e quay_token=$QUAY_TOKEN \
--e techdocs_bucketname=$TECHDOCS_BUCKETNAME \
--e techdocs_accesskeyid=$TECHDOCS_ACCESSKEYID \
--e techdocs_secretaccesskey=$TECHDOCS_SECRETACCESSKEY \
--e techdocs_region=$TECHDOCS_REGION
--e techdocs_builder=external
 ```
 
 After the playbook has run, you can login to Red Hat Developer Hub as `johndoe`
