@@ -8,7 +8,7 @@
 
 - name: Install Orchestrator
   ansible.builtin.include_tasks: orchestrator.yml
-  when: install_orchestrator | default(false)
+  when: ocp4_workload_platform_engineering_workshop_rhdh_orchestrator_enabled
 
 - name: Install RHBK
   ansible.builtin.include_tasks: keycloak.yml

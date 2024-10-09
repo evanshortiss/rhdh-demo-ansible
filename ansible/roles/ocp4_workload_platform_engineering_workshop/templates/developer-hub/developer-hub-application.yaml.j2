@@ -52,6 +52,7 @@ spec:
                 - dynamic-plugins.default.yaml
               plugins:
                 # Orchestrator dynamic plugins
+                {% if ocp4_workload_platform_engineering_workshop_rhdh_orchestrator_enabled %}
                 - disabled: false
                   package: "@redhat/backstage-plugin-orchestrator-backend-dynamic@1.2.0"
                   integrity: sha512-lyw7IHuXsakTa5Pok8S2GK0imqrmXe3z+TcL7eB2sJYFqQPkCP5la1vqteL9/1EaI5eI6nKZ60WVRkPEldKBTg==
@@ -77,10 +78,13 @@ spec:
                                 text: Orchestrator
                               module: OrchestratorPlugin
                               path: /orchestrator
+                {% endif %}
                 # Built-in dynamic plugins
                 - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
                   disabled: false
                   pluginConfig: {}
+                - package: ./dynamic-plugins/dist/backstage-plugin-tech-radar
+                  disabled: false
                 - package: ./dynamic-plugins/dist/roadiehq-backstage-plugin-argo-cd-backend-dynamic
                   disabled: false
                 - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-argocd
@@ -134,6 +138,13 @@ spec:
                 #     policyFileReload: true
                 proxy:
                   endpoints:
+                    # '/developer-hub':
+                    #   target: <DOMAIN_URL> # i.e https://raw.githubusercontent.com/
+                    #   pathRewrite:
+                    #     '^/api/proxy/developer-hub/tech-radar': <path to json file> # i.e /janus-idp/backstage-showcase/main/packages/app/public/tech-radar/data-default.json
+                    #     '^/api/proxy/developer-hub': <path to json file> # i.e /janus-idp/backstage-showcase/main/packages/app/public/homepage/data.json
+                    #   changeOrigin: true
+                    #   secure: false
                     '/quay/api':
                       target: 'https://quay.io'
                       credentials: require
@@ -281,17 +292,6 @@ spec:
                             seconds: 15
                           timeout:
                             minutes: 3
-                    # keycloakOrg:
-                    #   default:
-                    #     baseUrl: https://{{ ocp4_workload_platform_engineering_workshop_rhbk_host }}.{{ r_openshift_subdomain }}
-                    #     loginRealm: {{ ocp4_workload_platform_engineering_workshop_rhbk_realm_backstage_name }}
-                    #     realm: {{ ocp4_workload_platform_engineering_workshop_rhbk_realm_backstage_name }}
-                    #     clientId: {{ ocp4_workload_platform_engineering_workshop_rhbk_realm_backstage_name }}
-                    #     clientSecret: {{ ocp4_workload_platform_engineering_workshop_rhbk_client_backstage_secret }}
-                    #     schedule:
-                    #       frequency: { minutes: 1 }
-                    #       timeout: { minutes: 3 }
-                    #       initialDelay: { seconds: 15 }
                   import:
                     entityFilename: catalog-info.yaml
                   rules:

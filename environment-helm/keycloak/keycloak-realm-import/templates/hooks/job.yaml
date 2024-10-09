@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "keycloak-realmimport.name" . }}-hook
+  name: {{ include "keycloak-realmimport.name" . }}-{{.Values.realm.name}}-hook
   labels:
     {{- include "keycloak-realmimport.labels" . | nindent 4 }}
   annotations: 
