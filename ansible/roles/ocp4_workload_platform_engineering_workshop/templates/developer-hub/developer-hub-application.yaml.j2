@@ -53,6 +53,7 @@ spec:
               plugins:
                 # Orchestrator dynamic plugins
                 {% if ocp4_workload_platform_engineering_workshop_rhdh_orchestrator_enabled %}
+
                 - disabled: false
                   package: "@redhat/backstage-plugin-orchestrator-backend-dynamic@1.2.0"
                   integrity: sha512-lyw7IHuXsakTa5Pok8S2GK0imqrmXe3z+TcL7eB2sJYFqQPkCP5la1vqteL9/1EaI5eI6nKZ60WVRkPEldKBTg==
@@ -78,7 +79,9 @@ spec:
                                 text: Orchestrator
                               module: OrchestratorPlugin
                               path: /orchestrator
+
                 {% endif %}
+
                 # Built-in dynamic plugins
                 - package: ./dynamic-plugins/dist/janus-idp-backstage-plugin-keycloak-backend-dynamic
                   disabled: false
@@ -107,6 +110,8 @@ spec:
                       builder: {{ ocp4_workload_platform_engineering_workshop_rhdh_techdocs_builder }}
                       generator:
                         runIn: local
+                        mkdocs:
+                          legacyCopyReadmeMdToIndexMd: true
                       # publisher:
                       #   awsS3:
                       #     bucketName: '${BUCKET_NAME}'
